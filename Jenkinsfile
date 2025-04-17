@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         SONARQUBE_SERVER = 'Sonarqube' // Make sure this matches your Jenkins SonarQube config name
-        DOCKER_IMAGE = 'yourdockerhubusername/devops-demo'
+        DOCKER_IMAGE = 'cindy3377/devops-demo'
     }
 
     stages {
