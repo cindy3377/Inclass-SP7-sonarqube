@@ -1,47 +1,56 @@
 pipeline {
     agent any
-    tools {
-        maven 'Maven3'
-        jdk 'JDK 21'
-    }
 
     environment {
-        DOCKERHUB_CREDENTIALS_ID = 'Docker_Hub'
-        DOCKERHUB_REPO = 'cindy3377/Inclass-SP7-sonarqube'
-        DOCKER_IMAGE_TAG = 'latest_v1'
-        // Set PATH explicitly for Jenkins
-        PATH = "/usr/local/bin:$PATH"
-        SONARQUBE_SERVER = 'Sonarqube'  // The name of the SonarQube server configured in Jenkins
-        SONAR_TOKEN = 'sqa_1355975db9cb9e1684e315e6acbe9c745611ef75'
+        SONARQUBE_SERVER = 'Sonarqube' // Make sure this matches your Jenkins SonarQube config name
+        DOCKER_IMAGE = 'yourdockerhubusername/devops-demo'
     }
 
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/cindy3377/Inclass-SP7-sonarqube.git'
+                git 'https://github.com/cindy3377/Inclass-SP7-sonarqube.git'
             }
         }
 
-        stage('Build') {
+        stage('Build with Maven') {
             steps {
                 sh 'mvn clean install'
             }
         }
 
-        stage('Sonarqube Analysis') {
+        stage('SonarQube Analysis') {
             steps {
-                withSonarQubeEnv('Sonarqube') {
+                withSonarQubeEnv("${SONARQUBE_SERVER}") {
+                    sh 'sonar-scanner -Dsonar.projectKey=devops-demo -Dsonar.sources=. -Dsonar.java.binaries=target'
+                }
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                sh 'docker build -t $DOCKER_IMAGE .'
+            }
+        }
+
+        stage('Push Docker Image') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
                     sh '''
-                        /Users/trang/Applications/sonar-scanner-7.0.2.4839-macosx-x64/bin/sonar-scanner \
-                        -Dsonar.projectKey=devops-demo \
-                        -Dsonar.projectName=DevOps-Demo \
-                        -Dsonar.sources=src \
-                        -Dsonar.java.binaries=target/classes \
-                        -Dsonar.host.url=http://localhost:9000 \
-                        -Dsonar.login=${SONAR_TOKEN}
+                        echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
+                        docker push $DOCKER_IMAGE
                     '''
                 }
             }
+        }
+    }
+
+    post {
+        success {
+            echo 'Pipeline completed successfully!'
+        }
+        failure {
+            echo 'Pipeline failed. Check the logs.'
         }
     }
 }
