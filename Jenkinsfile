@@ -11,8 +11,8 @@ pipeline {
         DOCKER_IMAGE_TAG = 'latest_v1'
         // Set PATH explicitly for Jenkins
         PATH = "/usr/local/bin:$PATH"
-        SONARQUBE_SERVER = 'SonarQube'  // The name of the SonarQube server configured in Jenkins
-        SONAR_TOKEN = 'sqa_89410aae23f6e5d65088b544a3698b099411c681' // Store the token securely
+        SONARQUBE_SERVER = 'Sonarqube'  // The name of the SonarQube server configured in Jenkins
+        SONAR_TOKEN = 'sqa_1355975db9cb9e1684e315e6acbe9c745611ef75'
     }
 
     stages {
@@ -28,9 +28,9 @@ pipeline {
             }
         }
 
-        stage('SonarQube Analysis') {
+        stage('Sonarqube Analysis') {
             steps {
-                withSonarQubeEnv('SonarQube') {
+                withSonarQubeEnv('Sonaraube') {
                     sh """
                         sonar-scanner ^
                         -Dsonar.projectKey=SonarQube ^
