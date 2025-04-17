@@ -26,10 +26,11 @@ pipeline {
         stage('SonarQube Analysis') {
             steps {
                 withSonarQubeEnv("${SONARQUBE_SERVER}") {
-                    sh 'sonar-scanner -Dsonar.projectKey=devops-demo -Dsonar.sources=. -Dsonar.java.binaries=target'
+                    sh 'mvn sonar:sonar -Dsonar.projectKey=devops-demo -Dsonar.java.binaries=target'
                 }
             }
         }
+
 
         stage('Build Docker Image') {
             steps {
