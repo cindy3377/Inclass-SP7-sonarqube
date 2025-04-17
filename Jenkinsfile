@@ -29,13 +29,10 @@ pipeline {
         }
 
         stage('Sonarqube Analysis') {
-            tools {
-                sonarQubeScanner 'LocalScanner'
-            }
             steps {
                 withSonarQubeEnv('Sonarqube') {
                     sh """
-                        /Users/trang/Applications/sonar-scanner-7.0.2.4839-macosx-x64/bin/sonar-scanner
+                        /Users/trang/Applications/sonar-scanner-7.0.2.4839-macosx-x64/bin/sonar-scanner ^
                         -Dsonar.projectKey=SonarQube ^
                         -Dsonar.sources=src ^
                         -Dsonar.projectName=DevOps-Demo ^
