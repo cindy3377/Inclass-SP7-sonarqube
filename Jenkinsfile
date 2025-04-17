@@ -32,7 +32,7 @@ pipeline {
             steps {
                 withSonarQubeEnv('Sonarqube') {
                     sh """
-                        sonar-scanner ^
+                        /Users/trang/Applications/sonar-scanner-7.0.2.4839-macosx-x64/bin/sonar-scanner
                         -Dsonar.projectKey=SonarQube ^
                         -Dsonar.sources=src ^
                         -Dsonar.projectName=DevOps-Demo ^
