@@ -9,7 +9,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'master', url: 'https://github.com/cindy3377/sep2_week5_inclass_s2.git'
+                git branch: 'master', url: 'https://github.com/cindy3377/Inclass-SP7-sonarqube.git'
             }
         }
 
