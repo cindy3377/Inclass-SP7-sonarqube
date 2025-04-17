@@ -33,7 +33,7 @@ pipeline {
                 withSonarQubeEnv('SonarQube') {
                     sh """
                         sonar-scanner ^
-                        -Dsonar.projectKey=devops-demo ^
+                        -Dsonar.projectKey=SonarQube ^
                         -Dsonar.sources=src ^
                         -Dsonar.projectName=DevOps-Demo ^
                         -Dsonar.host.url=http://localhost:9000 ^
