@@ -28,23 +28,23 @@ pipeline {
             }
         }
 
-        stage('SonarQube Analysis') {
+        stage('Sonarqube Analysis') {
             tools {
                 sonarQubeScanner 'LocalScanner'
             }
             steps {
                 withSonarQubeEnv('Sonarqube') {
-                    sh 'sonar-scanner ' +
-                        '-Dsonar.projectKey=devops-demo ' +
-                        '-Dsonar.sources=src ' +
-                        '-Dsonar.projectName=DevOps-Demo ' +
-                        '-Dsonar.host.url=http://localhost:9000 ' +
-                        "-Dsonar.login=${env.SONAR_TOKEN} " +
-                        '-Dsonar.java.binaries=target/classes'
+                    sh """
+                        /Users/trang/Applications/sonar-scanner-7.0.2.4839-macosx-x64/bin/sonar-scanner
+                        -Dsonar.projectKey=SonarQube ^
+                        -Dsonar.sources=src ^
+                        -Dsonar.projectName=DevOps-Demo ^
+                        -Dsonar.host.url=http://localhost:9000 ^
+                        -Dsonar.login=${env.SONAR_TOKEN} ^
+                        -Dsonar.java.binaries=target/classes
+                    """
                 }
             }
         }
-
-
     }
 }
