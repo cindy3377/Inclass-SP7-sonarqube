@@ -3,13 +3,13 @@ pipeline {
 
     environment {
         SONARQUBE_SERVER = 'SonarQubeServer'  // The name of the SonarQube server configured in Jenkins
-        SONAR_TOKEN = 'sqa_902ad64d0703370fee676a4b9c578c84cc550199' // Store the token securely
+        SONAR_TOKEN = 'sqa_89410aae23f6e5d65088b544a3698b099411c681' // Store the token securely
     }
 
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'master', url: 'https://github.com/cindy3377/Inclass-SP7-sonarqube.git'
+                git branch: 'main', url: 'https://github.com/cindy3377/Inclass-SP7-sonarqube.git'
             }
         }
 
