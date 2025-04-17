@@ -2,8 +2,12 @@ pipeline {
     agent any
 
     environment {
-        SONARQUBE_SERVER = 'Sonarqube' // Make sure this matches your Jenkins SonarQube config name
+        SONARQUBE_SERVER = 'Sonarqube' // Jenkins SonarQube server config name
         DOCKER_IMAGE = 'cindy3377/devops-demo'
+    }
+
+    tools {
+        maven 'Maven' // Ensure this matches the name in Jenkins Global Tool Configuration
     }
 
     stages {
@@ -14,9 +18,8 @@ pipeline {
         }
 
         stage('Build with Maven') {
-        def mvnHome = tool name: 'Maven'
             steps {
-                sh "${mvnHome}/bin/mvn clean install"
+                sh 'mvn clean install'
             }
         }
 
@@ -48,10 +51,10 @@ pipeline {
 
     post {
         success {
-            echo 'Pipeline completed successfully!'
+            echo '✅ Pipeline completed successfully!'
         }
         failure {
-            echo 'Pipeline failed. Check the logs.'
+            echo '❌ Pipeline failed. Check the logs.'
         }
     }
 }
