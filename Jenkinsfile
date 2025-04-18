@@ -34,8 +34,14 @@ pipeline {
         }
 
         stage('Build Docker Image') {
+            environment {
+                PATH = "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+            }
             steps {
-                sh 'docker build -t $DOCKER_IMAGE .'
+                sh 'echo "Checking Docker version..."'
+                sh 'which docker'
+                sh 'docker --version'
+                sh 'docker build -t cindy3377/devops-demo .'
             }
         }
 
