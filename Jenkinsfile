@@ -26,7 +26,7 @@ pipeline {
         stage('SonarQube Analysis') {
             steps {
                 withSonarQubeEnv("${SONARQUBE_SERVER}") {
-                    withCredentials([string(credentialsId: 'sonar-token', variable: 'SONAR_TOKEN')]) {
+                    withCredentials([string(credentialsId: 'SonarJenkins', variable: 'SONAR_TOKEN')]) {
                         sh 'mvn sonar:sonar -Dsonar.projectKey=devops-demo -Dsonar.token=$SONAR_TOKEN -Dsonar.java.binaries=target'
                     }
                 }
